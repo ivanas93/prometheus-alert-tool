@@ -9,10 +9,8 @@ import com.ivanas.metricgenerator.model.LowMetric;
 import com.ivanas.metricgenerator.model.ZeroMetric;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.annotation.Nullable;
-
+import java.util.concurrent.TimeUnit;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -42,10 +40,12 @@ public class MetricsGeneratorServiceImpl implements MetricsGeneratorService {
 
     @Override
     public BaseMetric getMetricsGenerated(final String command) {
-        return Match(command).of(
+        var metric = Match(command).of(
                 Case($("RESET"), new ZeroMetric(cache.getUnchecked(0))),
                 Case($("INC"), new HighMetric(cache.getUnchecked(0))),
                 Case($("DEC"), new LowMetric(cache.getUnchecked(0))),
                 Case($(), new ZeroMetric(cache.getUnchecked(0))));
+        cache.put(0, metric.calculateMetric());
+        return metric;
     }
 }
