@@ -1,5 +1,6 @@
 package com.ivanas.metricgenerator.controller;
 
+import com.ivanas.metricgenerator.model.BaseMetric;
 import com.ivanas.metricgenerator.service.MetricsGeneratorService;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.RequiredArgsConstructor;
@@ -27,15 +28,15 @@ public class MetricsGeneratorController {
     }
 
     @GetMapping(value = "/metricsGenerator")
-    public String getMetricsGenerated(@RequestParam final Map<String, String> params) {
+    public BaseMetric getMetricsGenerated(@RequestParam final Map<String, String> params) {
         return Function.<Map<String, String>>identity()
                 .andThen(this::carryMetricToGauge)
                 .apply(params);
     }
 
-    private String carryMetricToGauge(final Map<String, String> params) {
-        var value = this.metricsGeneratorService.getMetricsGenerated(params.get("command")).getValueMetric();
-        gauge.set(value);
-        return "Value of gauge = " + value.toString();
+    private BaseMetric carryMetricToGauge(final Map<String, String> params) {
+        var metric = this.metricsGeneratorService.getMetricsGenerated(params.get("command"));
+        gauge.set(metric.getValueMetric());
+        return metric;
     }
 }

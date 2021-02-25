@@ -8,6 +8,7 @@ public class HighMetric extends BaseMetric {
 
     @Override
     public Integer calculateMetric() {
-        return getValueMetric() + 1;
+        this.setValueMetric(getValueMetric() + 1);
+        return getValueMetric();
     }
 }

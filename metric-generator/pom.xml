@@ -54,6 +54,11 @@
 			<artifactId>vavr</artifactId>
 			<version>0.9.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>${assertj-core.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

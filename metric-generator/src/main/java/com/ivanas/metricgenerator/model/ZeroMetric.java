@@ -7,6 +7,7 @@ public class ZeroMetric extends BaseMetric {
 
     @Override
     public Integer calculateMetric() {
-        return 0;
+        this.setValueMetric(0);
+        return getValueMetric();
     }
 }
