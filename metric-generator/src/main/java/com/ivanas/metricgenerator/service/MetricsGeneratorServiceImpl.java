@@ -9,8 +9,9 @@ import com.ivanas.metricgenerator.model.LowMetric;
 import com.ivanas.metricgenerator.model.ZeroMetric;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Nullable;
 import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Nullable;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
