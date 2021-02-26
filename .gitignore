@@ -44,5 +44,7 @@ local.properties
 # yarn specific
 **/src/main/frontend/dist/**
 
+config
+
 # POM autogenerate
 dependency-reduced-pom.xml
