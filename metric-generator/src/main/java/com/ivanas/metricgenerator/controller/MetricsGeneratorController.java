@@ -24,7 +24,7 @@ public class MetricsGeneratorController {
 
     @PostConstruct
     public void gaugeRegister() {
-        this.gauge = meterRegistry.gauge("custom.metric", new AtomicInteger(0));
+        this.gauge = meterRegistry.gauge("custom_metric", new AtomicInteger(0));
     }
 
     @GetMapping(value = "/inc")
