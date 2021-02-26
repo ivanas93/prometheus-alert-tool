@@ -5,14 +5,12 @@ import com.ivanas.metricgenerator.service.MetricsGeneratorService;
 import io.micrometer.core.instrument.MeterRegistry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
-
-import javax.annotation.PostConstruct;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,11 +26,23 @@ public class MetricsGeneratorController {
         this.gauge = meterRegistry.gauge("custom.metric", new AtomicInteger(0));
     }
 
-    @GetMapping(value = "/metricsGenerator")
-    public BaseMetric getMetricsGenerated(@RequestParam final Map<String, String> params) {
-        return Function.<Map<String, String>>identity()
-                .andThen(this::carryMetricToGauge)
-                .apply(params);
+    @GetMapping(value = "/inc")
+    public BaseMetric increaseMetric() {
+        return getMapBaseMetricFunction().apply(Map.of("command", "INC"));
+    }
+
+    @GetMapping(value = "/dec")
+    public BaseMetric decreaseMetric() {
+        return getMapBaseMetricFunction().apply(Map.of("command", "DEC"));
+    }
+
+    @GetMapping(value = "/reset")
+    public BaseMetric resetMetric() {
+        return getMapBaseMetricFunction().apply(Map.of("command", "RESET"));
+    }
+
+    private Function<Map<String, String>, BaseMetric> getMapBaseMetricFunction() {
+        return Function.<Map<String, String>>identity().andThen(this::carryMetricToGauge);
     }
 
     private BaseMetric carryMetricToGauge(final Map<String, String> params) {

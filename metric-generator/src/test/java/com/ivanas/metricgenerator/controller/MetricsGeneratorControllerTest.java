@@ -37,14 +37,28 @@ class MetricsGeneratorControllerTest {
     @Test
     void shouldReturnMetrics() {
         //Given
-        when(metricsGeneratorService.getMetricsGenerated("INC")).thenReturn(new HighMetric(1));
+        when(metricsGeneratorService.getMetricsGenerated("INC")).thenReturn(new HighMetric(2));
+        when(metricsGeneratorService.getMetricsGenerated("DEC")).thenReturn(new HighMetric(1));
+        when(metricsGeneratorService.getMetricsGenerated("RESET")).thenReturn(new HighMetric(0));
 
         //when && Then
-        mockMvc.perform(MockMvcRequestBuilders.get("/metricsGenerator?command=INC"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/inc"))
+                .andExpect(status().isOk())
+                .andExpect(
+                        content().json("{\"valueMetric\":2}")
+                );
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/dec"))
                 .andExpect(status().isOk())
                 .andExpect(
                         content().json("{\"valueMetric\":1}")
                 );
+        mockMvc.perform(MockMvcRequestBuilders.get("/reset"))
+                .andExpect(status().isOk())
+                .andExpect(
+                        content().json("{\"valueMetric\":0}")
+                );
+
 
     }
 
