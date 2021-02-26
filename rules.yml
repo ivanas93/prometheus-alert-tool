@@ -1,0 +1,17 @@
+groups:
+  - name: rules
+    rules:
+      - alert: RequestMoreThanFive
+        expr:  sum(custom_metric) > 5
+        for: 1s
+        labels:
+          severity: high
+        annotations:
+          summary: Application receiving too many requests in endpoint /inc
+      - alert: Reset
+        expr:  sum(custom_metric) == 0
+        for: 1s
+        labels:
+          severity: high
+        annotations:
+          summary: Custom_metric has been reset /reset

@@ -1,0 +1,75 @@
+version: '3.3'
+services:
+  metric-generator-one:
+    image: metric-generator
+    build:
+      dockerfile: ./Dockerfile
+      context: ./metric-generator
+    ports:
+      - 8080:8080
+    expose:
+      - 8080
+    networks:
+      prometheus-alert-tool:
+
+  metric-generator-two:
+    image: metric-generator
+    build:
+      dockerfile: ./Dockerfile
+      context: ./metric-generator
+    ports:
+      - 80:8080
+    expose:
+      - 8080
+    networks:
+      prometheus-alert-tool:
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - 9090:9090
+    expose:
+      - 9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./rules.yml:/etc/prometheus/rules.yml
+    depends_on:
+      - metric-generator-one
+      - metric-generator-two
+    networks:
+      prometheus-alert-tool:
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    ports:
+      - 9093:9093
+      - 9094:9094
+    expose:
+      - 9093
+      - 9094
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+      - --cluster.listen-address=
+      - --storage.path=/alertmanager
+    depends_on:
+      - metric-generator-one
+      - metric-generator-two
+    networks:
+      prometheus-alert-tool:
+
+  service-mail:
+    image: namshi/smtp:latest
+    ports:
+      - 25:25
+    expose:
+      - 25
+    networks:
+      prometheus-alert-tool:
+
+networks:
+  prometheus-alert-tool:

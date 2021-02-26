@@ -1,0 +1,9 @@
+route:
+  receiver: emailer
+receivers:
+  - name: emailer
+    email_configs:
+      - to: vklockow_n726y@hexud.com
+        from: vatuhottahy-0639@yopmail.com
+        require_tls: false
+        smarthost: service-mail:25

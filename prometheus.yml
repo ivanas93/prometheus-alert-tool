@@ -1,0 +1,13 @@
+scrape_configs:
+  - job_name: 'metric-generator'
+    scrape_interval: 2s
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: [ 'metric-generator-one:8080','metric-generator-two:8080' ]
+rule_files:
+  - './rules.yml'
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
