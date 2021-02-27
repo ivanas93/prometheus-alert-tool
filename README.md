@@ -67,7 +67,7 @@ rule_files:
 ```
 
 To end the environment config only need declare how alerts will be sent and for whom. 
-This is done into [alertmanageryml](/alertmanager.yml)
+This is done into [alertmanager.yml](/alertmanager.yml)
 ```yml
 route:
   receiver: emailer
@@ -87,11 +87,13 @@ install **docker** and **docker-compose**.
 By default, the alerts are sent by email, hence it is needed, two temporal emails, for example:
 * [temp-mail](https://temp-mail.org/)
 * [yopmail](http://www.yopmail.com/)
+
 To facilitate email config into the yml file, only it is necessary executing **set-email.sh** and follow the instructions.
 ```sh
 ./set-email.sh
 ```
-
+### Architecture 
+![img.png](files/architecture.png)
 ### Installation
 
 1. Clone the repo
@@ -115,11 +117,21 @@ To facilitate email config into the yml file, only it is necessary executing **s
    ```
 
 ## Usage
-By default, when custom alert arrives to count equals five, its fired the alert. For this behaviour follows the next instructions
+By default, when custom alert arrives to count equals five, this fired the alert. For this behaviour follows the next instructions
 
-TO-DO
-
-## Contact
-TO-DO
-Your Name - []() - email
-Project Link: []()
+1. Call the endpoint **inc** until valueMetric:5
+```sh
+curl -v http://localhost:8080/inc
+```
+```json
+{"valueMetric":5}
+```
+2. Go to [prometheus-ui-alerts](http://localhost:9090/alerts) and verify that the alert was fired after was evaluated
+    2.1 Without events
+    ![img.png](files/prometheus-whitout-fire-alerts.png)
+    2.2 evaluating alert
+    ![img.png](files/prometheus-evaluating-alert.png)
+    2.3 fired alert
+    ![img.png](files/prometheus-fired.png)
+3. Go to  [alert-manager-ui](http://localhost:9093/#/alerts) and verify that alert was send to receivers.
+![img.png](files/alermanager-alert.png)
