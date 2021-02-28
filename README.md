@@ -17,7 +17,7 @@ This project was implemented example of an alert tool based of Prometheus and Al
 ## Getting Started
 [metric-generator](metric-generator) is implemented with spring boot.
 The aim of **metric-generator** is to expose three endpoints for managing (increase, reduce and reset) a custom
-metric (the metrics library is micrometer). The custom metrics are temporarily saved in a local cache.
+metric (micrometer). The custom metric is temporarily saved in a local cache.
 
 Through Spring Boot-Actuator, **metric-generator** expose an endpoint for that Prometheus do scraping and collect the 
 metrics (custom and technical metrics)
@@ -34,7 +34,7 @@ scrape_configs:
 
 Prometheus is a collector and a time series database. Into monitoring ecosystem of Prometheus, Alert Manager is a tool 
 that it allows creating the rules based in PromQL (Prometheus Query Language, language query for time series).
-Depends on configure when the alert is fired, it's notified of different ways, for example, sending an email.
+Depends on configuration, when the alert is fired, at the same time, is notified of different ways, for example, sending an email.
 
 For connecting an instance of Prometheus with Alert Manager only is necessary declare into [prometheus.yml](/prometheus.yml)
 ```yml
@@ -66,7 +66,7 @@ rule_files:
   - './rules.yml'
 ```
 
-To end the environment config only need declare how alerts will be sent and for whom. 
+To end, the environment config only need declare how alerts will be sent and for whom. 
 This is done into [alertmanager.yml](/alertmanager.yml)
 ```yml
 route:
@@ -81,10 +81,10 @@ receivers:
 ```
 
 ### Prerequisites
-All project is executed and orchestrated witch container and docker-compose so it's necessary has got 
+All project is executed and orchestrated with containers and docker-compose so it's necessary has got 
 install **docker** and **docker-compose**.
 
-By default, the alerts are sent by email, hence it is needed, two temporal emails, for example:
+By default, the alerts are sent by email, hence it is needed two temporal emails, for example:
 * [temp-mail](https://temp-mail.org/)
 * [yopmail](http://www.yopmail.com/)
 
@@ -117,7 +117,7 @@ To facilitate email config into the yml file, only it is necessary executing **s
    ```
 
 ## Usage
-By default, when custom alert arrives to count equals five, this fired the alert. For this behaviour follows the next instructions
+By default, when custom alert arrives to count equals five, the alert is fired by Prometheus. For this behaviour follows the next instructions
 
 1. Call the endpoint **inc** until valueMetric:5
 ```sh
