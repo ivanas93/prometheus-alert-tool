@@ -2,7 +2,7 @@ groups:
   - name: rules
     rules:
       - alert: RequestMoreThanFive
-        expr:  sum(custom_metric) > 5
+        expr:  sum by (instance) (custom_metric) > 5
         for: 1s
         labels:
           severity: high
