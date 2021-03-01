@@ -71,5 +71,22 @@ services:
     networks:
       prometheus-alert-tool:
 
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    environment:
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+    depends_on:
+      - prometheus
+    volumes:
+      - ./grafana:/etc/grafana/provisioning/
+    networks:
+      prometheus-alert-tool:
+
 networks:
   prometheus-alert-tool:
