@@ -135,3 +135,10 @@ curl -v http://localhost:8080/inc
     ![img.png](files/prometheus-fired.png)
 3. Go to  [alert-manager-ui](http://localhost:9093/#/alerts) and verify that alert was send to receivers.
 ![img.png](files/alermanager-alert.png)
+   
+## Bonus 
+Another way of microservice alerting is across Grafana. For this option , It's had added a new service into docker-compose. 
+This service is configured to aggregate into a container a data source configuration and a pre-configured dashboard.
+After use  ``` docker-compose up ``` , only it is necessary open [grafana-ui](http://localhost:3000/d/custom-metrics-analyze/custom-metrics-analyze?viewPanel=2&orgId=1).
+
+![img.png](files/grafana.png)
