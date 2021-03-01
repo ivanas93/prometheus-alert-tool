@@ -3,6 +3,7 @@ package com.ivanas.metricgenerator.controller;
 import com.ivanas.metricgenerator.model.BaseMetric;
 import com.ivanas.metricgenerator.service.MetricsGeneratorService;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tags;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,8 @@ public class MetricsGeneratorController {
 
     @PostConstruct
     public void gaugeRegister() {
-        this.gauge = meterRegistry.gauge("custom_metric", new AtomicInteger(0));
+        this.gauge = meterRegistry.gauge("custom_metric",
+                Tags.of("creation_instant", Long.toString(System.nanoTime())), new AtomicInteger(0));
     }
 
     @GetMapping(value = "/inc")
